@@ -9,31 +9,37 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    @IBOutlet var questionLabel: UILabel!
+    
+    //@IBOutlet var questionLabel: UILabel!
     @IBOutlet var answerLabel: UILabel!
+    @IBOutlet var currentQuestionLabel: UILabel!
+    @IBOutlet var currentQuestionLabelCenterXConstriant: NSLayoutConstraint!
+    @IBOutlet var nextQuestionLabel: UILabel!
+    @IBOutlet var nextQuestionLabelCenterXConstriant: NSLayoutConstraint!
     
     let questions: [String] = [
-       "What is 7+7?",
-       "What is the capital of Vermont?",
-       "What is cognac made from?"
+        "What is 7+7?",
+        "What is the capital of Vermont?",
+        "What is cognac made from?"
     ]
     let answers: [String] = [
-       "14",
-       "Montpelier",
-       "Grapes"
+        "14",
+        "Montpelier",
+        "Grapes"
     ]
     var currentQuestionIndex: Int = 0
     
     @IBAction func showNextQuestion(_ sender: UIButton){
-       currentQuestionIndex += 1
+        currentQuestionIndex += 1
         if currentQuestionIndex == questions.count {
-           currentQuestionIndex = 0
+            currentQuestionIndex = 0
         }
         
         let question: String = questions[currentQuestionIndex]
-        questionLabel.text = question
+        nextQuestionLabel.text = question
         answerLabel.text = "???"
+        
+        animateLabelTransitions()
     }
     
     @IBAction func showAnswer(_ sender: UIButton){
@@ -41,11 +47,53 @@ class ViewController: UIViewController {
         answerLabel.text = answer
     }
     
-    override func viewDidLoad(){
-       super.viewDidLoad()
-       questionLabel.text = questions[currentQuestionIndex]
+    func animateLabelTransitions(){
+        /* let animateClosure = { () -> Void in
+         self.questionLabel.alpha = 1
+         }
+         
+         //Animate the alpha
+         UIView.animate(withDuration: 0.5, animations: animateClosure)*/
+        /*UIView.animate(withDuration: 0.5, animations: {
+         self.currentQuestionLabel.alpha = 0
+         self.nextQuestionLabel.alpha = 1})
+         */
+        view.layoutIfNeeded()
+        //animate the alpha and center X constriants
+        let screenWidth = view.frame.width
+        self.nextQuestionLabelCenterXConstriant.constant = 0
+        self.currentQuestionLabelCenterXConstriant.constant += screenWidth
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveLinear], animations: {
+            self.currentQuestionLabel.alpha = 0
+            self.nextQuestionLabel.alpha = 1
+            self.view.layoutIfNeeded()}, completion: { _ in
+                swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
+                swap(&self.currentQuestionLabelCenterXConstriant,
+                     &self.nextQuestionLabelCenterXConstriant)
+                self.updateOffScreenLabel()
+        })
     }
-
-
+    
+    override func viewDidLoad(){
+        super.viewDidLoad()
+        currentQuestionLabel.text = questions[currentQuestionIndex]
+        
+        updateOffScreenLabel()
+    }
+    
+    func updateOffScreenLabel(){
+        let screenWidth = view.frame.width
+        nextQuestionLabelCenterXConstriant.constant = -screenWidth
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //set the label's initial alpha
+        nextQuestionLabel.alpha = 0
+    }
+    
+    
 }
 
