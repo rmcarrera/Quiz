@@ -73,6 +73,16 @@ class ViewController: UIViewController {
                      &self.nextQuestionLabelCenterXConstriant)
                 self.updateOffScreenLabel()
         })
+        
+       /* UIView.animate(withDuration: 0.5, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: nil, animations:  {
+            self.currentQuestionLabel.alpha = 0
+            self.nextQuestionLabel.alpha = 1
+            self.view.layoutIfNeeded()}, completion: { _ in
+                swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
+                swap(&self.currentQuestionLabelCenterXConstriant,
+                     &self.nextQuestionLabelCenterXConstriant)
+                self.updateOffScreenLabel()
+        })*/
     }
     
     override func viewDidLoad(){
