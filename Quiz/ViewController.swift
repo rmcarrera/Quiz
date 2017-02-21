@@ -64,17 +64,7 @@ class ViewController: UIViewController {
         self.nextQuestionLabelCenterXConstriant.constant = 0
         self.currentQuestionLabelCenterXConstriant.constant += screenWidth
         
-        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveLinear], animations: {
-            self.currentQuestionLabel.alpha = 0
-            self.nextQuestionLabel.alpha = 1
-            self.view.layoutIfNeeded()}, completion: { _ in
-                swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
-                swap(&self.currentQuestionLabelCenterXConstriant,
-                     &self.nextQuestionLabelCenterXConstriant)
-                self.updateOffScreenLabel()
-        })
-        
-       /* UIView.animate(withDuration: 0.5, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: nil, animations:  {
+        /*UIView.animate(withDuration: 0.5, delay: 0, options: [.curveLinear], animations: {
             self.currentQuestionLabel.alpha = 0
             self.nextQuestionLabel.alpha = 1
             self.view.layoutIfNeeded()}, completion: { _ in
@@ -83,6 +73,13 @@ class ViewController: UIViewController {
                      &self.nextQuestionLabelCenterXConstriant)
                 self.updateOffScreenLabel()
         })*/
+
+        UIView.animate(withDuration: 0.8, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [.curveEaseIn], animations: {self.currentQuestionLabel.alpha = 0
+        self.nextQuestionLabel.alpha = 1
+            self.view.layoutIfNeeded()}, completion: { _ in swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
+        swap(&self.currentQuestionLabelCenterXConstriant, &self.nextQuestionLabelCenterXConstriant)
+        self.updateOffScreenLabel()
+        })
     }
     
     override func viewDidLoad(){
