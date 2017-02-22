@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         self.nextQuestionLabel.alpha = 1
             self.view.layoutIfNeeded()}, completion: { _ in swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
         swap(&self.currentQuestionLabelCenterXConstriant, &self.nextQuestionLabelCenterXConstriant)
-        //self.updateOffScreenLabel()
+        self.updateOffScreenLabel()
         })
     }
     
@@ -87,22 +87,20 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         currentQuestionLabel.text = questions[currentQuestionIndex]
         
-        //turns off constriant
-        nextQuestionLabelCenterXConstriant.isActive = false
-        
         //Create instance of UIGuide
         self.view.addLayoutGuide(widthLayGuide)
         widthLayGuide.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        nextQuestionLabel.centerXAnchor.constraint(equalTo: widthLayGuide.leadingAnchor).isActive = true
-        currentQuestionLabel.centerXAnchor.constraint(equalTo: widthLayGuide.trailingAnchor).isActive = true
+        currentQuestionLabel.leadingAnchor.constraint(equalTo: widthLayGuide.trailingAnchor).isActive = true
+        currentQuestionLabel.trailingAnchor.constraint(equalTo: widthLayGuide.leadingAnchor).isActive = true
         
-        //updateOffScreenLabel()
+        updateOffScreenLabel()
     }
     
     func updateOffScreenLabel(){
         let screenWidth = view.frame.width
         nextQuestionLabelCenterXConstriant.constant = -screenWidth
         
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
