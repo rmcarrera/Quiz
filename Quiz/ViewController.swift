@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet var nextQuestionLabel: UILabel!
     @IBOutlet var nextQuestionLabelCenterXConstriant: NSLayoutConstraint!
     var widthLayGuide = UILayoutGuide()
+    var screenWidth: CGFloat!
     
     let questions: [String] = [
         "What is 7+7?",
@@ -61,7 +62,7 @@ class ViewController: UIViewController {
          */
         view.layoutIfNeeded()
         //animate the alpha and center X constriants
-        let screenWidth = view.frame.width
+        //let screenWidth = view.frame.width
         self.nextQuestionLabelCenterXConstriant.constant = 0
         self.currentQuestionLabelCenterXConstriant.constant += screenWidth
         
@@ -75,7 +76,7 @@ class ViewController: UIViewController {
                 self.updateOffScreenLabel()
         })*/
 
-        UIView.animate(withDuration: 0.8, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [.curveEaseIn], animations: {self.currentQuestionLabel.alpha = 0
+        UIView.animate(withDuration: 0.8, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [], animations: {self.currentQuestionLabel.alpha = 0
         self.nextQuestionLabel.alpha = 1
             self.view.layoutIfNeeded()}, completion: { _ in swap(&self.currentQuestionLabel, &self.nextQuestionLabel)
         swap(&self.currentQuestionLabelCenterXConstriant, &self.nextQuestionLabelCenterXConstriant)
@@ -87,6 +88,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         currentQuestionLabel.text = questions[currentQuestionIndex]
         
+        screenWidth = view.frame.width
         //Create instance of UIGuide
         self.view.addLayoutGuide(widthLayGuide)
         widthLayGuide.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
@@ -99,7 +101,6 @@ class ViewController: UIViewController {
     func updateOffScreenLabel(){
         let screenWidth = view.frame.width
         nextQuestionLabelCenterXConstriant.constant = -screenWidth
-        
     
     }
     
