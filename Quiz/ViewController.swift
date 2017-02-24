@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet var nextQuestionLabelCenterXConstriant: NSLayoutConstraint!
     var widthLayGuide = UILayoutGuide()
     var screenWidth: CGFloat!
+    var count: Int = 0
     
     let questions: [String] = [
         "What is 7+7?",
@@ -45,21 +46,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showAnswer(_ sender: UIButton){
-        let answer: String = answers[currentQuestionIndex]
-        answerLabel.text = answer
+        if count%2 != 0{//only go to next answer if odd number of clicks
+            let answer: String = answers[currentQuestionIndex]
+            answerLabel.text = answer
+        }
+        else {
+            answerLabel.text = "???"
+        }
     }
     
     func animateLabelTransitions(){
-        /* let animateClosure = { () -> Void in
-         self.questionLabel.alpha = 1
-         }
-         
-         //Animate the alpha
-         UIView.animate(withDuration: 0.5, animations: animateClosure)*/
-        /*UIView.animate(withDuration: 0.5, animations: {
-         self.currentQuestionLabel.alpha = 0
-         self.nextQuestionLabel.alpha = 1})
-         */
         view.layoutIfNeeded()
         //animate the alpha and center X constriants
         //let screenWidth = view.frame.width
@@ -75,6 +71,8 @@ class ViewController: UIViewController {
                      &self.nextQuestionLabelCenterXConstriant)
                 self.updateOffScreenLabel()
         })*/
+        
+        count += 1//increment to odd number
 
         UIView.animate(withDuration: 0.8, delay: 0.5, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [], animations: {self.currentQuestionLabel.alpha = 0
         self.nextQuestionLabel.alpha = 1
@@ -99,14 +97,14 @@ class ViewController: UIViewController {
     }
     
     func updateOffScreenLabel(){
-        let screenWidth = view.frame.width
+       // let screenWidth = view.frame.width
         nextQuestionLabelCenterXConstriant.constant = -screenWidth
     
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         //set the label's initial alpha
         nextQuestionLabel.alpha = 0
     }
